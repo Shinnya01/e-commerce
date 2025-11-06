@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard')->middleware('role:admin,seller');
 
     Route::middleware('role:user')->group(function () {
-        Route::resource('cart', CartController::class);
+        // Route::resource('cart', CartController::class);
     });
     
     Route::resource('product', ProductController::class);

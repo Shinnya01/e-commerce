@@ -32,7 +32,7 @@ import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, Heart, HouseIcon, LayoutGrid, Menu, Search, ShoppingCart, User } from 'lucide-react';
+import { BookOpen, Folder, Heart, HouseIcon, LayoutGrid, Menu, Search, Shirt, ShoppingCart, User } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import { edit } from '@/routes/profile';
@@ -53,9 +53,9 @@ const mainNavItems: NavItem[] = [
         icon: HouseIcon,
     },
     {
-        title: 'Account',
-        href: edit(),
-        icon: User,
+        title: 'Products',
+        href: '/product',
+        icon: Shirt,
     },
     {
         title: 'Wishlist',
@@ -66,6 +66,11 @@ const mainNavItems: NavItem[] = [
         title: 'Cart',
         href: '/cart',
         icon: ShoppingCart,
+    },
+    {
+        title: 'Account',
+        href: edit(),
+        icon: User,
     },
 ];
 

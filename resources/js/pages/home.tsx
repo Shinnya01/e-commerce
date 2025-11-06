@@ -1,10 +1,11 @@
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { House, Shirt, Smartphone, Star, Volleyball } from 'lucide-react';
 
 const categories = [
@@ -30,7 +31,22 @@ const categories = [
   },
 ];
 
-export default function Home() {
+interface Product {
+  id: number
+  name: string
+  description: string
+  price: string
+  stock: number
+  image: string
+  category?: { name: string }
+  sub_category?: { name: string }
+}
+
+// -------------------------------------------------------
+// PAGE COMPONENT
+// -------------------------------------------------------
+
+export default function Home({ products }: { products: Product[]}) {
     return (
         <AppLayout>
             <Head title="Home" />
@@ -52,59 +68,20 @@ export default function Home() {
                     <div className='max-w-7xl mx-auto'>
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-2xl font-bold">Featured Products</h2>
-                            <a href="#" className="text-blue-500 text-sm hover:underline">
-                            View All
-                            </a>
+                            <Button variant="link" asChild>
+                                <Link href="/product">View All</Link>
+                            </Button>
                         </div>
 
                         <div className="grid justify-center grid-cols-[repeat(auto-fit,minmax(270px,1fr))] gap-6 ">
-                            {[
-                            {
-                                name: "Premium Wireless Headphones",
-                                image: "https://images.unsplash.com/photo-1583224932378-4d1b37b90d5e?w=500",
-                                price: "$199.99",
-                                oldPrice: "$249.99",
-                                reviews: "128 reviews",
-                            },
-                            {
-                                name: "Smart Fitness Watch",
-                                image: "https://images.unsplash.com/photo-1603791452906-b6f6bca8a511?w=500",
-                                price: "$299.99",
-                                reviews: "89 reviews",
-                            },
-                            {
-                                name: "Designer Leather Handbag",
-                                image: "https://images.unsplash.com/photo-1618354691547-5b1d8b289e1a?w=500",
-                                price: "$149.99",
-                                oldPrice: "$199.99",
-                                reviews: "156 reviews",
-                                sale: true,
-                            },
-                            {
-                                name: "Professional Running Shoes",
-                                image: "https://images.unsplash.com/photo-1528701800489-20be2b1c2e4c?w=500",
-                                price: "$129.99",
-                                reviews: "203 reviews",
-                            },
-                            {
-                                name: "Professional Running Shoes",
-                                image: "https://images.unsplash.com/photo-1528701800489-20be2b1c2e4c?w=500",
-                                price: "$129.99",
-                                reviews: "203 reviews",
-                            },
-                            ].map((product) => (
+                            {products.map((product) => (
                             <div
                                 key={product.name}
                                 className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-lg transition"
                             >
                                 <div className="relative">
-                                {product.sale && (
-                                    <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-md">
-                                    Sale
-                                    </span>
-                                )}
                                 <img
-                                    src={product.image}
+                                    src='https://images.unsplash.com/photo-1583224932378-4d1b37b90d5e?w=500'
                                     alt={product.name}
                                     className="w-full h-56 object-cover"
                                 />
@@ -112,23 +89,18 @@ export default function Home() {
 
                                 <div className="p-4 text-left">
                                 <h3 className="font-semibold text-gray-800 mb-1">{product.name}</h3>
+                                <h3 className="font-extralight text-gray-800 mb-1 text-sm">{product.description}</h3>
                                 <div className="flex items-center text-yellow-400 text-sm mb-1">
                                     <Star className="w-4 h-4 fill-yellow-400" />
                                     <Star className="w-4 h-4 fill-yellow-400" />
                                     <Star className="w-4 h-4 fill-yellow-400" />
                                     <Star className="w-4 h-4 fill-yellow-400" />
                                     <Star className="w-4 h-4 text-gray-300" />
-                                    <span className="text-gray-500 text-xs ml-1">({product.reviews})</span>
                                 </div>
 
                                 <div className="flex justify-between items-center">
                                     <div className='text-black'>
                                         <span className="font-bold text-lg">{product.price}</span>
-                                        {product.oldPrice && (
-                                            <span className="text-gray-400 text-sm line-through ml-2">
-                                            {product.oldPrice}
-                                            </span>
-                                        )}
                                     </div>
                                     <button className="bg-blue-500 text-white text-sm font-medium px-3 py-1.5 rounded-md hover:bg-blue-600">
                                     Add to Cart

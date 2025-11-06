@@ -13,14 +13,15 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // 🧾 Get all sellers
+        // Get all sellers
         $sellers = User::where('role', 'seller')->get();
 
-        // 🛍️ Create demo products only for sellers
         foreach ($sellers as $seller) {
-            Product::factory()->count(5)->create([
-                'user_id' => $seller->id,
-            ]);
+            Product::factory()
+                ->count(5)
+                ->create([
+                    'user_id' => $seller->id,
+                ]);
         }
     }
 }

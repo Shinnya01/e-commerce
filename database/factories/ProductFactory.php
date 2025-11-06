@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,12 +20,16 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::where('role', 'seller')->inRandomOrder()->value('id'),
+            // user_id will be assigned in the seeder
             'name' => $this->faker->words(3, true),
             'description' => $this->faker->sentence(),
             'price' => $this->faker->randomFloat(2, 50, 1000),
             'stock' => $this->faker->numberBetween(1, 100),
             'image' => $this->faker->imageUrl(640, 480, 'products', true),
+
+            // Assign random category and subcategory
+            'category_id' => Category::inRandomOrder()->value('id'),
+            'sub_category_id' => SubCategory::inRandomOrder()->value('id'),
         ];
     }
 }
