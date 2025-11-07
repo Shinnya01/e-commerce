@@ -12,25 +12,25 @@ export default function showProduct({product}: {product: any}){
     return (
         <AppLayout>
             <div className="max-w-6xl mx-auto w-full py-6 space-y-6">
-                <Button variant="link" className="pl-0">
-                    <Link href="/product" className="flex items-center gap-2"><ArrowLeft/> Back</Link>
+                <Button variant="link" className="pl-0" onClick={() => window.history.back()}>
+                    <div className="flex items-center gap-2"><ArrowLeft/> Back</div>
                 </Button>
 
-                <Card className="bg-zinc-100 w-full h-auto p-0">
+                <Card className="bg-zinc-900 w-full h-auto p-0">
                     <div className="grid grid-cols-2 p-4 gap-8">
                         {/* PRODUCT IMAGES */}
                         <div className="space-y-4">
-                            <PlaceholderPattern className="bg-zinc-300 w-full h-100"/>
+                            <PlaceholderPattern className="bg-zinc-600 w-full h-100 rounded-lg"/>
                             <div className="flex gap-4">
-                                <PlaceholderPattern className="bg-zinc-300 w-30 h-30"/>
-                                <PlaceholderPattern className="bg-zinc-300 w-30 h-30"/>
-                                <PlaceholderPattern className="bg-zinc-300 w-30 h-30"/>
+                                <PlaceholderPattern className="bg-zinc-600 w-30 h-30 rounded-lg"/>
+                                <PlaceholderPattern className="bg-zinc-600 w-30 h-30 rounded-lg"/>
+                                <PlaceholderPattern className="bg-zinc-600 w-30 h-30 rounded-lg"/>
                             </div>
                             
                         </div>
 
                         {/* PRODUCT DETAILS */}
-                        <div className="space-y-4 dark:text-black">
+                        <div className="space-y-4 dark:text-white">
                             <h1 className="font-bold text-3xl">{product.name}</h1>
                             <h2 className= "font-bold text-3xl">${product.price}</h2>
                             {/* RATINGS */}
@@ -50,7 +50,7 @@ export default function showProduct({product}: {product: any}){
                                 <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                                     Add to Cart
                                 </Button>
-                                <Button className="bg-zinc-900 hover:bg-zinc-950 text-white">
+                                <Button variant="default" >
                                     Buy now
                                 </Button>
                                 <Button className="border border-zinc-300 text-black">
@@ -59,12 +59,12 @@ export default function showProduct({product}: {product: any}){
                             </div>
 
                             {/* DESCRIPTION */}
-                            <p className="text-zinc-700">{product.description}</p>
+                            <p className="text-zinc-00">{product.description}</p>
                         </div>
                     </div>
                 </Card>
 
-                <Card className="bg-zinc-100 w-full h-auto p-8 dark:text-black">
+                <Card className="bg-zinc-900 w-full h-auto p-8 dark:text-white">
                     <h1 className=" text-3xl font-bold">Product Specifications</h1>
 
                     {/* CARE */}
@@ -90,7 +90,7 @@ export default function showProduct({product}: {product: any}){
                     </div>
                 </Card>
 
-                <Card className="bg-zinc-100 w-full h-auto p-8 dark:text-black">
+                <Card className="bg-zinc-900 w-full h-auto p-8 dark:text-white">
                     <h1 className=" text-3xl font-bold">Customer Reviews</h1>
 
                     <div className="space-y-8">

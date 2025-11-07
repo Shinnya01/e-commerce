@@ -5,11 +5,12 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { ChevronRight, House, Shirt, Smartphone, Star, Volleyball } from 'lucide-react';
 
 interface Product {
   id: number
+  uuid: number
   name: string
   description: string
   price: string
@@ -17,11 +18,13 @@ interface Product {
   image: string
   category?: { name: string }
   sub_category?: { name: string }
+  
 }
 
 interface Category{
     id: number
     name: string
+    
 }
 
 // -------------------------------------------------------
@@ -29,6 +32,11 @@ interface Category{
 // -------------------------------------------------------
 
 export default function Home({ products, categories }: { products: Product[], categories: Category[]}) {
+
+    const showProduct = (id: number) => {
+        router.visit(`/products/${id}`)
+    }
+    
     return (
         <AppLayout>
             <Head title="Home" />
@@ -51,8 +59,8 @@ export default function Home({ products, categories }: { products: Product[], ca
                     <div className='max-w-7xl mx-auto'>
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-gray-400">Featured Products</h2>
-                            <Button variant="link" asChild>
-                                <Link href="/product" className='flex items-center'>See all products <ChevronRight/></Link>
+                            <Button variant="link" asChild className='p-0'>
+                                <Link href="/products" className='flex items-center '>See all products <ChevronRight/></Link>
                             </Button>
                         </div>
 
@@ -61,6 +69,7 @@ export default function Home({ products, categories }: { products: Product[], ca
                             <div
                             key={product.name}
                             className="rounded-2xl overflow-hidden shadow hover:shadow-2xl hover:scale-[1.02] transition-transform duration-200 bg-zinc-900"
+                            onClick={() => showProduct(product.uuid)}
                             >
                             <div className="relative">
                                 <img
@@ -71,9 +80,9 @@ export default function Home({ products, categories }: { products: Product[], ca
                             </div>
 
                             <div className="p-4">
-                                <div className="flex items-start justify-between mb-2">
-                                <div>
-                                    <h3 className="font-semibold text-gray-100">{product.name}</h3>
+                                <div className="flex items-start justify-between gap-4 mb-2">
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-gray-100 truncate">{product.name}</h3>
                                     <p className="text-gray-400 text-sm">
                                     {product.category 
                                         ? product.category.name + (product.sub_category ? ` • ${product.sub_category.name}` : "")

@@ -12,6 +12,7 @@ import { Star } from "lucide-react";
 
 interface Product {
   id: number
+  uuid: number
   name: string
   description: string
   price: string
@@ -24,7 +25,7 @@ interface Product {
 export default function Products({ products }:{ products: Product[] }) {
 
     const showProduct = (id: number) => {
-        router.visit(`/product/${id}`)
+        router.visit(`/products/${id}`)
     }
     
     return (
@@ -158,8 +159,8 @@ export default function Products({ products }:{ products: Product[] }) {
                         {products.map((product) => (
                             <div
                                 key={product.name}
-                                className="rounded-2xl overflow-hidden shadow bg-zinc-900"
-                                onClick={() => showProduct(product.id)}
+                                className="rounded-2xl overflow-hidden shadow hover:shadow-2xl hover:scale-[1.02] transition-transform duration-200 bg-zinc-900"
+                                onClick={() => showProduct(product.uuid)}
                             >
                             <div className="relative">
                                 <img
@@ -170,9 +171,9 @@ export default function Products({ products }:{ products: Product[] }) {
                             </div>
 
                             <div className="p-4">
-                                <div className="flex items-start justify-between mb-2">
-                                <div>
-                                    <h3 className="font-semibold text-gray-100">{product.name}</h3>
+                                <div className="flex items-start justify-between gap-4 mb-2">
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="font-semibold text-gray-100 truncate">{product.name}</h3>
                                     <p className="text-gray-400 text-sm">
                                     {product.category 
                                         ? product.category.name + (product.sub_category ? ` • ${product.sub_category.name}` : "")
