@@ -45,6 +45,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/components/ui/input-group"
+import { Badge } from './ui/badge';
 
 const mainNavItems: NavItem[] = [
     {
@@ -168,14 +169,25 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                             </SheetContent>
                         </Sheet>
                     </div>
-
-                    <Link
+                    {auth.user.role === 'user' ? (
+                        <Link
+                        href="/"
+                        prefetch
+                        className="flex items-center space-x-2"
+                        >
+                            <AppLogo />
+                        </Link>
+                    ) : (
+                        <Link
                         href={dashboard()}
                         prefetch
                         className="flex items-center space-x-2"
-                    >
-                        <AppLogo />
-                    </Link>
+                        >
+                            <AppLogo />
+                        </Link>
+                    ) }
+                    
+                        
                     <InputGroup className='hidden lg:flex max-w-xl mx-auto rounded-full'>
                         <InputGroupInput placeholder="Search products, brands and more... " />
                         <InputGroupAddon>
@@ -192,6 +204,34 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         key={index}
                                         className="relative flex h-full items-center"
                                     >
+                                        {item.title === 'Cart' ? (
+                                            <Sheet>
+                                                <SheetTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    className={cn(
+                                                    navigationMenuTriggerStyle(),
+                                                    'h-9 cursor-pointer px-3'
+                                                    )}
+                                                >
+                                                   <div className="relative inline-flex items-center">
+                                                        <ShoppingCart className="h-5 w-5 text-gray-200" />
+                                                    </div>
+
+                                                </Button>
+                                                </SheetTrigger>
+                                                <SheetContent side="right" className="w-[400px] sm:w-[540px]">
+                                                <SheetHeader>
+                                                    <SheetTitle>Your Cart</SheetTitle>
+                                                </SheetHeader>
+                                                <div className="mt-4 space-y-4 px-4">
+                                                    {/* TODO: Replace this with your cart items */}
+                                                    <p className="text-sm text-gray-500">Your cart is empty.</p>
+                                                </div>
+                                                </SheetContent>
+                                            </Sheet>
+                                            ) : (
+
                                         <TooltipProvider
                                         key={item.title}
                                         delayDuration={0}
@@ -225,6 +265,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 </TooltipContent>
                                             </Tooltip>
                                         </TooltipProvider>
+                                        )}
                                     </NavigationMenuItem>
                                 ))}
                             </NavigationMenuList>

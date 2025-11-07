@@ -7,7 +7,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AppLayout from "@/layouts/app-layout";
 import { Field } from "@headlessui/react";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
+import { Star } from "lucide-react";
 
 interface Product {
   id: number
@@ -21,6 +22,11 @@ interface Product {
 }
 
 export default function Products({ products }:{ products: Product[] }) {
+
+    const showProduct = (id: number) => {
+        router.visit(`/product/${id}`)
+    }
+    
     return (
         <AppLayout>
             <Head title="Shop All Products" />
@@ -150,38 +156,51 @@ export default function Products({ products }:{ products: Product[] }) {
                     {/* Products */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {products.map((product) => (
-                            <Card key={product.id} className="overflow-hidden hover:shadow-lg transition py-0">
-                                <div className="aspect-square bg-gray-200 flex items-center justify-center">
-                                    {product.image ? (
-                                    <img
-                                        src={product.image}
-                                        alt={product.name}
-                                        className="object-cover w-full h-full"
-                                    />
-                                    ) : (
-                                    <span className="text-gray-400 text-sm">No image</span>
-                                    )}
-                                </div>
-                                <div className="p-4 space-y-2">
-                                    
-                                    <p className="text-xs text-gray-500">
+                            <div
+                                key={product.name}
+                                className="rounded-2xl overflow-hidden shadow bg-zinc-900"
+                                onClick={() => showProduct(product.id)}
+                            >
+                            <div className="relative">
+                                <img
+                                src={product.image ?? 'https://images.unsplash.com/photo-1583224932378-4d1b37b90d5e?w=500'}
+                                alt={product.name}
+                                className="w-full h-80 object-cover bg-zinc-400 dark:bg-zinc-600"
+                                />
+                            </div>
+
+                            <div className="p-4">
+                                <div className="flex items-start justify-between mb-2">
+                                <div>
+                                    <h3 className="font-semibold text-gray-100">{product.name}</h3>
+                                    <p className="text-gray-400 text-sm">
                                     {product.category 
                                         ? product.category.name + (product.sub_category ? ` • ${product.sub_category.name}` : "")
                                         :   "No Category"
                                     }
                                     </p>
-                                    
-                                    <h3 className="font-semibold text-lg truncate">{product.name}</h3>
-                                    <p className="text-sm text-yellow-500">★★★★★ (128 reviews)</p>
-                                    <div className="flex items-center justify-between">
-                                    <span className="font-bold text-lg">${product.price}</span>
-                                    <Button className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700">
-                                        Add to Cart
-                                    </Button>
-                                    </div>
-                                </div>
-                                </Card>
 
+                                </div>
+                                <div className="text-gray-100 font-bold">${product.price}</div>
+                                </div>
+
+                                <div className="flex items-center text-yellow-400 text-sm">
+                                <Star className="w-4 h-4 fill-yellow-400" />
+                                <Star className="w-4 h-4 fill-yellow-400" />
+                                <Star className="w-4 h-4 fill-yellow-400" />
+                                <Star className="w-4 h-4 fill-yellow-400" />
+                                <Star className="w-4 h-4 text-gray-500" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-2 p-2">
+                            <Button className="text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700 " variant="outline">
+                                Add to Cart
+                            </Button>
+                            <Button className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700 col-span-2" variant="secondary">
+                                Buy now
+                            </Button>
+                            </div>
+                            </div>
                         ))}
                     </div>
                 </section>

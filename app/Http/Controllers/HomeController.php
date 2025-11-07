@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,8 +14,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::take(4)->get();
-        return Inertia::render('home', compact('products'));
+        $products = Product::with(['category', 'subCategory'])->take(4)->get();
+        $categories = Category::all();
+        return Inertia::render('home', compact('products', 'categories'));
     }
 
     /**
@@ -38,7 +40,7 @@ class HomeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**
