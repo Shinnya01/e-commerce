@@ -1,5 +1,6 @@
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
@@ -47,14 +48,10 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     const currentPath = window.location.pathname;
 
     return (
-        <div className="px-4 py-6">
-            <Heading
-                title="Settings"
-                description="Manage your profile and account settings"
-            />
+        <div className="px-4 py-6 max-w-7xl mx-auto w-full ">
 
-            <div className="flex flex-col lg:flex-row lg:space-x-12">
-                <aside className="w-full max-w-xl lg:w-48 bg-zinc-800">
+            {/* <div className="flex flex-col lg:flex-row lg:space-x-12">
+                <aside className="w-full max-w-xl lg:w-48 ">
                     <h1 className='px-3 mb-4'>My Account</h1>
                     <nav className="flex flex-col space-y-1 space-x-0">
                         {sidebarNavItems.map((item, index) => (
@@ -87,6 +84,40 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                     <section className="max-w-xl space-y-12">
                         {children}
                     </section>
+                </div>
+            </div> */}
+
+            <div className='grid grid-cols-3 gap-4'>
+                <aside className='bg-zinc-800/30 h-fit rounded-lg overflow-hidden'>
+                    <h1 className='p-3 font-semibold'>My Account</h1>
+                    <nav className="flex flex-col space-x-0">
+                        {sidebarNavItems.map((item, index) => (
+                            <Button
+                                key={`${resolveUrl(item.href)}-${index}`}
+                                size="sm"
+                                variant="ghost"
+                                asChild
+                                className={cn('w-full justify-start rounded-none py-6', {
+                                    'bg-muted': isSameUrl(
+                                        currentPath,
+                                        item.href,
+                                    ),
+                                })}
+                            >
+                                <Link href={item.href} >
+                                    {item.icon && (
+                                        <item.icon className="h-4 w-4" />
+                                    )}
+                                    {item.title}
+                                </Link>
+                            </Button>
+                        ))}
+                    </nav>
+                </aside>
+                <div className="flex-1 col-span-2">
+                    <Card className="p-4">
+                        {children}
+                    </Card>
                 </div>
             </div>
         </div>

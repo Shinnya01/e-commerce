@@ -33,7 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::resource('products', ProductController::class);
     Route::resource('order', OrderController::class);
-    Route::resource('wishlist', WishController::class);
+    // Route::resource('wishlist', WishController::class);
 });
 
 require __DIR__.'/settings.php';

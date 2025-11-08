@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
+use App\Http\Controllers\Controller;
 use App\Models\Wish;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class WishController extends Controller
      */
     public function index()
     {
-        return Inertia::render('wishlist');
+        return Inertia::render('settings/wishlist');
     }
 
     /**
