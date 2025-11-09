@@ -37,6 +37,11 @@ const sidebarNavItems: NavItem[] = [
         href: '/wishlist',
         icon: null,
     },
+    {
+        title: 'Notification',
+        href: '/notification',
+        icon: null,
+    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {

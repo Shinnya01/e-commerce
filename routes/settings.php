@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Settings\WishController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\PasswordController;
+use App\Http\Controllers\Settings\NotificationController;
 use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
 
 Route::middleware('auth')->group(function () {
@@ -25,6 +26,8 @@ Route::middleware('auth')->group(function () {
     })->name('appearance.edit');
 
     Route::resource('wishlist', WishController::class);
+    Route::resource('notification', NotificationController::class);
+    
 
     Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
         ->name('two-factor.show');

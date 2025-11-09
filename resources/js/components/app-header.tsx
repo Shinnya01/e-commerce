@@ -5,6 +5,15 @@ import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -35,7 +44,7 @@ import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, Heart, HouseIcon, LayoutGrid, Menu, Search, Shirt, ShoppingCart, User, X } from 'lucide-react';
+import { BellIcon, BookOpen, Clock, Folder, Heart, HouseIcon, LayoutGrid, Menu, Search, Shirt, ShoppingCart, User, X } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import { edit } from '@/routes/profile';
@@ -78,6 +87,11 @@ const mainNavItems: NavItem[] = [
         title: 'Account',
         href: edit(),
         icon: User,
+    },
+    {
+        title: 'Notification',
+        href: '/notification',
+        icon: BellIcon,
     },
 ];
 
@@ -210,25 +224,29 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         key={index}
                                         className="relative flex h-full items-center"
                                     >
-                                        {item.title === 'Cart' ? (
+                                        {
+                                        item.title === 'Cart' ? (
                                             <Sheet>
                                                 <SheetTrigger asChild>
                                                 <Button
                                                     variant="ghost"
                                                     className={cn(
                                                     navigationMenuTriggerStyle(),
-                                                    'h-9 cursor-pointer px-3'
+                                                    'h-9 cursor-pointer px-3',
+                                                    page.url.startsWith('/order') && activeItemStyles
                                                     )}
                                                 >
                                                    <div className="relative inline-flex items-center">
                                                         <ShoppingCart className="h-5 w-5 text-gray-200" />
 
-                                                        <Badge className="absolute -top-4 -right-4 h-5 min-w-5 rounded-full px-1 font-mono tabular-nums">
+                                                        <Badge className="absolute -top-4 -right-5 size-2 rounded-full p-2 font-mono tabular-nums">
                                                             3
                                                         </Badge>
+                                                        
                                                     </div>
-
-
+                                                {page.url.startsWith('/order') && (
+                                                    <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
+                                                )}
                                                 </Button>
                                                 </SheetTrigger>
                                                 <form >
@@ -351,14 +369,70 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                         </div>
                                                         {/* <Button type="submit" className='m-4'>Checkout</Button> */}
                                                         <Button asChild>
-                                                            <Link href="/order">Checkout</Link>
+                                                            <Link href="/order">Go to bag</Link>
                                                         </Button>
                                                     </SheetFooter>
                                                     
                                                 </SheetContent>
                                                 </form>
                                             </Sheet>
-                                            ) : (
+                                        )
+                                        : item.title === 'Notification' ? 
+                                        ( 
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button
+                                                    variant="ghost"
+                                                    className={cn(
+                                                    navigationMenuTriggerStyle(),
+                                                    'h-9 cursor-pointer px-3',
+                                                    isSameUrl(
+                                                            page.url,
+                                                            item.href,
+                                                        ) && activeItemStyles,
+                                                    )}
+                                                >
+                                                   <div className="relative inline-flex items-center">
+                                                        <BellIcon className="h-5 w-5 text-gray-200" />
+                                                        
+                                                        <Badge className="absolute -top-3 -right-4 size-2 rounded-full p-1 font-mono tabular-nums"/>
+                              
+                                                    </div>
+                                                    {isSameUrl(page.url, item.href) && (
+                                                    <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
+                                                )}
+                                                </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="p-0 w-lg" align="end">
+                                                    <div className='flex items-center justify-between bg-zinc-700'>
+                                                        <DropdownMenuLabel>Notification</DropdownMenuLabel>
+                                                        <Button variant="link">
+                                                            <Link href="/notification" className='text-right bg-red-40'>View All</Link>
+                                                        </Button>
+                                                    </div>
+                                                    <div className='max-h-96 overflow-y-auto'>
+                                                        {[...Array(10)].map((_, i) => (
+                                                            <div>
+                                                                <div className='flex gap-2 items-start p-4'>
+                                                                    <Avatar>
+                                                                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                                                        <AvatarFallback>CN</AvatarFallback>
+                                                                    </Avatar>
+                                                                    <div className='flex-1 min-w-0 max-w-md space-y-2'>
+                                                                        <h3 className='font-semibold text-sm'>Your order is placed</h3>
+                                                                        <p className='truncate text-zinc-400 '>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo, ea!</p>
+                                                                        <p className='text-zinc-400 flex gap-2 items-center text-xs'><Clock className='size-3'/> 2 days ago</p>
+                                                                    </div>
+                                                                </div>
+                                                                <DropdownMenuSeparator className='w-full'/>
+                                                            </div>
+                                                            ))}
+                                                    </div>
+                                                    
+                                                    
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        ) : (
 
                                         <TooltipProvider
                                         key={item.title}
@@ -393,6 +467,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 </TooltipContent>
                                             </Tooltip>
                                         </TooltipProvider>
+
                                         )}
                                     </NavigationMenuItem>
                                 ))}

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
 use Inertia\Inertia;
-use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class OrderController extends Controller
+class NotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('order/order-bag');
+        return Inertia::render('settings/notification');
     }
 
     /**
@@ -35,16 +35,15 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(Order $order)
-    public function show()
+    public function show(string $id)
     {
-        return Inertia::render('order/order-detail');
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $order)
+    public function edit(string $id)
     {
         //
     }
@@ -52,7 +51,7 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -60,7 +59,7 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy(string $id)
     {
         //
     }

@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import AppLayout from "@/layouts/app-layout";
 import { Field } from "@headlessui/react";
 import { Head, router } from "@inertiajs/react";
-import { Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 
 interface Product {
   id: number
@@ -193,12 +193,12 @@ export default function Products({ products }:{ products: Product[] }) {
                                 <Star className="w-4 h-4 text-gray-500" />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 gap-2 p-2">
+                            <div className="grid grid-cols-[auto_1fr] gap-2 p-2">
                             <Button className="text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700 " variant="outline">
-                                Add to Cart
+                                <Heart/>
                             </Button>
-                            <Button className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700 col-span-2" variant="secondary">
-                                Buy now
+                            <Button className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700" variant="secondary">
+                                Add to cart
                             </Button>
                             </div>
                             </div>

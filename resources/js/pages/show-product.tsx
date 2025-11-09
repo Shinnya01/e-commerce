@@ -48,10 +48,7 @@ export default function showProduct({product}: {product: any}){
                             {/* ACTION BUTTONS */}
                             <div className="flex items-center gap-2">
                                 <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-                                    Add to Cart
-                                </Button>
-                                <Button variant="default" >
-                                    Buy now
+                                    Add to bag
                                 </Button>
                                 <Button className="border border-zinc-300 text-black">
                                     <HeartIcon/>

@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { edit } from '@/routes/profile';
+import { Separator } from '@/components/ui/separator';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -68,9 +69,29 @@ export default function Profile({
                                         message={errors.name}
                                     />
                                 </div>
-
+                                <Separator/>
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Email address</Label>
+
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        className="mt-1 block w-full"
+                                        defaultValue={auth.user.email}
+                                        name="email"
+                                        required
+                                        autoComplete="username"
+                                        placeholder="Email address"
+                                    />
+
+                                    <InputError
+                                        className="mt-2"
+                                        message={errors.email}
+                                    />
+                                </div>
+                                <Separator/>
+                                <div className="grid gap-2">
+                                    <Label htmlFor="bday">Birthday</Label>
 
                                     <Input
                                         id="email"
@@ -115,7 +136,7 @@ export default function Profile({
                                             )}
                                         </div>
                                     )}
-
+                                <Separator/>
                                 <div className="flex items-center gap-4">
                                     <Button
                                         disabled={processing}
