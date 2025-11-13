@@ -44,50 +44,59 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/products',
     },
     {
-        title: 'Add Product',
-        href: '/products/create',
+        title: 'Edit Product',
+        href: '/products/{product}',
     },
 ];
 
-type Category = {
-  id: number
+interface Product {
+  id: number              // database primary key
+  uuid: string            // public identifier for routes
   name: string
+  description: string
+  price: string
+  base_price?: string
+  discounted_price?: string
+  stock: number
+  charge_tax?: boolean
+  in_stock?: boolean
+  status?: string
+  sku: string
+  barcode?: string
+  image?: string
+  category?: { name: string }
+  sub_category?: { name: string }
 }
 
-type AddProductProps = {
-  categories: Category[]
-  subCategories: Category[]
+interface EditProductProps {
+  product: Product
+  categories: { id: number; name: string }[]
+  subCategories: { id: number; name: string }[]
 }
 
 
-export default function AddProduct({ categories, subCategories }: AddProductProps) {
 
-    const { data, setData, post, processing, errors } = useForm({
-        name: '',
-        sku: '',
-        price: 0,
-        barcode: '',
-        description: '',
-        base_price: '',
-        discounted_price: '',
-        charge_tax: false,
-        in_stock: true,
-        stock: '',
-        status: '',
-        category: '',
-        sub_category: '',
+export default function EditProduct({ product, categories, subCategories }: EditProductProps) {
+
+    const { data, setData, put, processing, errors } = useForm({
+        name: product.name,
+        sku: product.sku,
+        price: product.price,
+        barcode: product.barcode,
+        description: product.description,
+        base_price: product.base_price,
+        discounted_price: product.discounted_price,
+        charge_tax: product.charge_tax,
+        in_stock: product.in_stock,
+        stock: product.stock,
+        status: product.status,
+        category: product.category?.name ?? '',
+        sub_category: product.sub_category?.name ?? '',
     });
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        post('/products', {
-            onSuccess: () => {
-                toast.success("Product created!");
-            },
-            onError: () => {
-                toast.error("Failed to create product");
-            }
-        });
+        put(`/products/${product.uuid}`);
     }
 
     return (
@@ -108,11 +117,7 @@ export default function AddProduct({ categories, subCategories }: AddProductProp
                     </div>
                     <div className='space-x-2'>
                  
-                        <Button variant="destructive">
-                            <Link href="/products">
-                                Discard
-                            </Link>
-                            </Button>
+                        <Button variant="destructive">Discard</Button>
             
                         <Button variant="default" type='submit' disabled={processing}>
                             Create
@@ -299,7 +304,7 @@ export default function AddProduct({ categories, subCategories }: AddProductProp
                                             placeholder='number of stock' 
                                             type='number' 
                                             value={data.stock}
-                                            onChange={(e) => setData('stock', e.target.value)}
+                                            onChange={(e) => setData('stock', Number(e.target.value))}
                                         />
                                         <InputError message={errors.stock} />
                                     </div>
@@ -354,7 +359,7 @@ export default function AddProduct({ categories, subCategories }: AddProductProp
                                         </SelectContent>
                                     </Select>
                                     <Popover>
-                                        <PopoverTrigger asChild>
+                                        <PopoverTrigger>
                                             <Button variant="outline" type="button">
                                                 <PlusCircle/>
                                             </Button>
@@ -387,7 +392,7 @@ export default function AddProduct({ categories, subCategories }: AddProductProp
                                         </SelectContent>
                                     </Select>
                                     <Popover>
-                                        <PopoverTrigger asChild>
+                                        <PopoverTrigger>
                                             <Button variant="outline" type="button">
                                                 <PlusCircle/>
                                             </Button>

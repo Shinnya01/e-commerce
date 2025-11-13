@@ -98,12 +98,14 @@ interface Product {
   sku: string
   category?: { name: string }
   sub_category?: { name: string }
+  user?: { name:string }
 }
 
 // -------------------------------------------------------
 // PAGE COMPONENT
 // -------------------------------------------------------
-export default function SellerProductList({ productCount ,products }: { productCount: number ,products: Product[]}) {
+export default function SellerProductList({totalSellers,totalProducts, products }: 
+    { totalSellers: number, totalProducts:number, products: Product[]}) {
 
   const handleEdit = (product: Product) => {
     router.visit(`/products/${product.uuid}/edit`)
@@ -135,6 +137,22 @@ export default function SellerProductList({ productCount ,products }: { productC
       ),
       enableSorting: false,
       enableHiding: false,
+    },
+    {
+      accessorKey: "user",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Seller Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => {
+        const userName = row.original.user?.name ?? "—"
+        return <div className="ml-3 font-medium">{userName}</div>
+    },
     },
     {
       accessorKey: "name",
@@ -344,10 +362,10 @@ export default function SellerProductList({ productCount ,products }: { productC
 
         {/* Summary cards */}
         <div className="grid grid-cols-4 gap-4">
-          <Card><CardContent><CardDescription>Number of buyers</CardDescription><CardTitle className="text-3xl">50</CardTitle></CardContent></Card>
-          <Card><CardContent><CardDescription>Number of products</CardDescription><CardTitle className="text-3xl">{productCount}</CardTitle></CardContent></Card>
-          <Card><CardContent><CardDescription>Total Sales</CardDescription><CardTitle className="text-3xl">$4,530</CardTitle></CardContent></Card>
-          <Card><CardContent><CardDescription>Pending Orders</CardDescription><CardTitle className="text-3xl">$2,230</CardTitle></CardContent></Card>
+          <Card><CardContent><CardDescription>Total Seller</CardDescription><CardTitle className="text-3xl">{totalSellers}</CardTitle></CardContent></Card>
+          <Card><CardContent><CardDescription>Total Product</CardDescription><CardTitle className="text-3xl">{totalProducts}</CardTitle></CardContent></Card>
+          <Card><CardContent><CardDescription>Total worth of items</CardDescription><CardTitle className="text-3xl">$4,530</CardTitle></CardContent></Card>
+          <Card><CardContent><CardDescription>Discounts</CardDescription><CardTitle className="text-3xl">$2,230</CardTitle></CardContent></Card>
         </div>
 
         {/* Filter + Column control */}

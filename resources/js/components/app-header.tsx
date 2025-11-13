@@ -80,7 +80,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Cart',
-        href: '/cart',
+        href: '/order',
         icon: ShoppingCart,
     },
     {
@@ -117,7 +117,9 @@ interface AppHeaderProps {
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
-    const { auth } = page.props;
+
+    const { auth, cart } = page.props;
+ 
     const getInitials = useInitials();
     return (
         <>
@@ -224,16 +226,23 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         key={index}
                                         className="relative flex h-full items-center"
                                     >
-                                        {
-                                        item.title === 'Cart' ? (
-                                            <Sheet>
-                                                <SheetTrigger asChild>
-                                                <Button
-                                                    variant="ghost"
+                                        { item.title === 'Cart' ? (
+
+                                        <TooltipProvider
+                                        key={item.title}
+                                        delayDuration={0}
+                                        >
+                                        <Tooltip>
+                                            <TooltipTrigger>
+                                                <Link
+                                                    href={item.href}
                                                     className={cn(
-                                                    navigationMenuTriggerStyle(),
-                                                    'h-9 cursor-pointer px-3',
-                                                    page.url.startsWith('/order') && activeItemStyles
+                                                        navigationMenuTriggerStyle(),
+                                                        isSameUrl(
+                                                            page.url,
+                                                            item.href,
+                                                        ) && activeItemStyles,
+                                                        'h-9 cursor-pointer px-3',
                                                     )}
                                                 >
                                                    <div className="relative inline-flex items-center">
@@ -244,138 +253,16 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                         </Badge>
                                                         
                                                     </div>
-                                                {page.url.startsWith('/order') && (
+                                                </Link>
+                                                {isSameUrl(page.url, item.href) && (
                                                     <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
                                                 )}
-                                                </Button>
-                                                </SheetTrigger>
-                                                <form >
-                                                <SheetContent>
-                                                    
-                                                    <SheetHeader className='pb-0'>
-                                                        <SheetTitle>Your Cart</SheetTitle>
-                                                    </SheetHeader>
-                                                    <Separator />
-                                                    <div className='p-4 space-y-6'>
-                                                        {/* <p className="text-sm text-gray-500">Your cart is empty.</p> */}
-
-                                                        {/* ORDERS */}
-                                                        
-                                                        <div className='grid grid-cols-[auto_1fr_auto_auto] gap-2 items-center'>
-                                                            <PlaceholderPattern className='bg-zinc-600 w-20 h-20 rounded-lg'/>
-                                                            <div className='space-y-2'>
-                                                                <p>Classic Hoodie</p>
-                                                                <p className='text-zinc-500 text-sm'>Black | Medium</p>
-                                                                <p>$50.00</p>
-                                                            </div>
-                                                            <Select defaultValue='1'>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Select a quantity"/>
-                                                                </SelectTrigger>
-                                                                <SelectContent>
-                                                                    <SelectGroup>
-                                                                        <SelectItem value="1">1</SelectItem>
-                                                                        <SelectItem value="2">2</SelectItem>
-                                                                        <SelectItem value="3">3</SelectItem>
-                                                                        <SelectItem value="4">4</SelectItem>
-                                                                        <SelectItem value="5">5</SelectItem>
-                                                                    </SelectGroup>
-                                                                </SelectContent>
-                                                            </Select>
-                                                            <Button variant="ghost">
-                                                                <X/>
-                                                            </Button>
-                                                        </div>
-                                                        <Separator/>
-                                                        <div className='grid grid-cols-[auto_1fr_auto_auto] gap-2 items-center'>
-                                                            <PlaceholderPattern className='bg-zinc-600 w-20 h-20 rounded-lg'/>
-                                                            <div className='space-y-2'>
-                                                                <p>Classic Hoodie</p>
-                                                                <p className='text-zinc-500 text-sm'>Black | Medium</p>
-                                                                <p>$50.00</p>
-                                                            </div>
-                                                            <Select defaultValue='1'>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Select a quantity"/>
-                                                                </SelectTrigger>
-                                                                <SelectContent>
-                                                                    <SelectGroup>
-                                                                        <SelectItem value="1">1</SelectItem>
-                                                                        <SelectItem value="2">2</SelectItem>
-                                                                        <SelectItem value="3">3</SelectItem>
-                                                                        <SelectItem value="4">4</SelectItem>
-                                                                        <SelectItem value="5">5</SelectItem>
-                                                                    </SelectGroup>
-                                                                </SelectContent>
-                                                            </Select>
-                                                            <Button variant="ghost">
-                                                                <X/>
-                                                            </Button>
-                                                        </div>
-                                                        <Separator/>
-                                                        <div className='grid grid-cols-[auto_1fr_auto_auto] gap-2 items-center'>
-                                                            <PlaceholderPattern className='bg-zinc-600 w-20 h-20 rounded-lg'/>
-                                                            <div className='space-y-2'>
-                                                                <p>Classic Hoodie</p>
-                                                                <p className='text-zinc-500 text-sm'>Black | Medium</p>
-                                                                <p>$50.00</p>
-                                                            </div>
-                                                            <Select defaultValue='1'>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Select a quantity"/>
-                                                                </SelectTrigger>
-                                                                <SelectContent>
-                                                                    <SelectGroup>
-                                                                        <SelectItem value="1">1</SelectItem>
-                                                                        <SelectItem value="2">2</SelectItem>
-                                                                        <SelectItem value="3">3</SelectItem>
-                                                                        <SelectItem value="4">4</SelectItem>
-                                                                        <SelectItem value="5">5</SelectItem>
-                                                                    </SelectGroup>
-                                                                </SelectContent>
-                                                            </Select>
-                                                            <Button variant="ghost">
-                                                                <X/>
-                                                            </Button>
-                                                        </div>
-                                                        <Separator/>
-                                                    </div>
-                                                    
-                                                    
-                                                    <SheetFooter className='p-0'>
-                                                        <Separator />
-                                                        <div className='p-4'>
-                                                            <div className='space-y-4'>
-                                                                <div className='flex justify-between items-center text-md'>
-                                                                    <p>Subtotal</p>
-                                                                    <p>$255.00</p>
-                                                                </div>
-                                                                <div className='flex justify-between items-center text-md'>
-                                                                    <p>Shipping estimate</p>
-                                                                    <p>$5.00</p>
-                                                                </div>
-                                                                <div className='flex justify-between items-center text-md'>
-                                                                    <p>Tax estimate</p>
-                                                                    <p>$4.50</p>
-                                                                </div>
-
-                                                                <Separator/>
-                                                                <div className='flex justify-between items-center'>
-                                                                    <p className='text-lg font-medium'>Order total</p>
-                                                                    <p>$264.50</p>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        {/* <Button type="submit" className='m-4'>Checkout</Button> */}
-                                                        <Button asChild>
-                                                            <Link href="/order">Go to bag</Link>
-                                                        </Button>
-                                                    </SheetFooter>
-                                                    
-                                                </SheetContent>
-                                                </form>
-                                            </Sheet>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>{item.title}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                         )
                                         : item.title === 'Notification' ? 
                                         ( 

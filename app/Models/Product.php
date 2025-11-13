@@ -22,7 +22,8 @@ class Product extends Model
         'category_id',
         'sub_category_id',
         'user_id',
-        'uuid'
+        'uuid',
+        'image'
     ];
 
     protected static function boot()

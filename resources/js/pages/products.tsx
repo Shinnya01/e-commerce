@@ -7,8 +7,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AppLayout from "@/layouts/app-layout";
 import { Field } from "@headlessui/react";
-import { Head, router } from "@inertiajs/react";
+import { Head, router, useForm, usePage } from "@inertiajs/react";
 import { Heart, Star } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface Product {
   id: number
@@ -23,9 +25,25 @@ interface Product {
 }
 
 export default function Products({ products }:{ products: Product[] }) {
+    const { data, setData, post, processing, errors } = useForm({
+        product_id: 0
+    })
+
 
     const showProduct = (id: number) => {
         router.visit(`/products/${id}`)
+    }
+
+    const addToCart = (e: any, product_id: number) => {
+        e.preventDefault();
+
+        setData('product_id', product_id);
+        post('/order' , {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success('Added to cart successfully!')
+            },
+        })
     }
     
     return (
@@ -159,14 +177,15 @@ export default function Products({ products }:{ products: Product[] }) {
                         {products.map((product) => (
                             <div
                                 key={product.name}
-                                className="rounded-2xl overflow-hidden shadow hover:shadow-2xl hover:scale-[1.02] transition-transform duration-200 bg-zinc-900"
-                                onClick={() => showProduct(product.uuid)}
+                                className="rounded-2xl overflow-hidden bg-zinc-900"
+                               
                             >
                             <div className="relative">
                                 <img
                                 src={product.image ?? 'https://images.unsplash.com/photo-1583224932378-4d1b37b90d5e?w=500'}
                                 alt={product.name}
-                                className="w-full h-80 object-cover bg-zinc-400 dark:bg-zinc-600"
+                                className="w-full h-80 object-cover bg-zinc-400 dark:bg-zinc-600 hover:scale-[1.02] transition-transform duration-200"
+                                onClick={() => showProduct(product.uuid)}
                                 />
                             </div>
 
@@ -193,14 +212,20 @@ export default function Products({ products }:{ products: Product[] }) {
                                 <Star className="w-4 h-4 text-gray-500" />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-[auto_1fr] gap-2 p-2">
-                            <Button className="text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700 " variant="outline">
-                                <Heart/>
-                            </Button>
-                            <Button className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700" variant="secondary">
-                                Add to cart
-                            </Button>
-                            </div>
+                                <div className="grid grid-cols-[auto_1fr] gap-2 p-2">
+                                    <Button 
+                                        className="text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700 " 
+                                        variant="outline"
+                                        >
+                                        <Heart className="size-5"/>
+                                    </Button>
+                                    <Button 
+                                        className="bg-blue-600 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700" 
+                                        variant="secondary"
+                                        onClick={(e) => addToCart(e, product.id)}>
+                                        Add to cart
+                                    </Button>
+                                </div>
                             </div>
                         ))}
                     </div>

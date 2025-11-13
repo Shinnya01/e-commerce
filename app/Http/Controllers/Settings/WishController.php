@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Settings;
 
-use App\Http\Controllers\Controller;
 use App\Models\Wish;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class WishController extends Controller
 {
@@ -30,7 +31,30 @@ class WishController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        // Check if already in wishlist
+        $existing = Wish::where('user_id', Auth::id())
+                        ->where('product_id', $request->product_id)
+                        ->first();
+
+        if ($existing) {
+            return response()->json([
+                'message' => 'Product already in wishlist'
+            ], 409);
+        }
+
+        // Create wishlist entry
+        Wish::create([
+            'user_id' => Auth::id(),
+            'product_id' => $request->product_id,
+        ]);
+
+        return response()->json([
+        'message' => 'Added to wishlist',
+        ], 201);
     }
 
     /**

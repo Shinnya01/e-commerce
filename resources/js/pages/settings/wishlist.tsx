@@ -6,14 +6,13 @@ import { type BreadcrumbItem } from '@/types';
 
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { edit as editAppearance } from '@/routes/appearance';
 import Heading from '@/components/heading';
 import { Heart } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-
+1
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Wishlist',

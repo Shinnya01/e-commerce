@@ -24,7 +24,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Products',
-        href: '/product',
+        href: '/products',
         icon: Shirt,
     },
 ];
