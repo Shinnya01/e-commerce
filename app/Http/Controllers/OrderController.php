@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Wish;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -13,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Inertia::render('order/order-bag');
+        return Inertia::render('order/order-cart');
     }
 
     /**
@@ -29,7 +31,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        
     }
 
     /**

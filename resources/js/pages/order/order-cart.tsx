@@ -20,7 +20,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 
-export default function OrderBag() {
+interface Cart {
+    id: number;
+    product: {
+        id: number;
+        name: string;
+        description: string;
+        price: number;
+        image?: string; // optional
+    };
+}
+
+export default function OrderCart({totalPrice, carts}: {totalPrice: number, carts: Cart[]}) {
     const [selected, setSelected] = useState("cod")
     const options = [
         { value: "cod", label: "Cash on Delivery", info: "Pay when you receive your order." },
@@ -91,7 +102,7 @@ export default function OrderBag() {
                                     </div>
                                 </CardDescription>
                                 <CardContent className='p-0 space-y-4'>
-                                    {[...Array(5)].map((_, i) =>(
+                                    {carts.map((cart) => (
                                         <Card className='p-4 gap-2'>
                                             <div className='flex justify-between items-center'>
                                                 <Checkbox className=''/>
@@ -103,7 +114,7 @@ export default function OrderBag() {
                                                     <PlaceholderPattern className='w-30 h-30 bg-amber-50 rounded-lg'/>
                                                 </div>
                                                 <div className='space-y-2'>
-                                                    <p className='text-sm'>Nike | Blazer Low '77 Vintage Basketball Shoes</p>
+                                                    <p className='text-sm'>{cart.product.name}</p>
                                                     <p className='text-xs'>Size: EU 44</p>
                                                     <div className='flex justify-between items-center'>
                                                         <div className='flex items-center gap-2'>
@@ -117,7 +128,7 @@ export default function OrderBag() {
                                                                 </SelectContent>
                                                             </Select>
                                                         </div>
-                                                        <p className='font-medium text-sm'>Php 6,999.00</p>
+                                                        <p className='font-medium text-sm'>Php {cart.product.price}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,27 +139,27 @@ export default function OrderBag() {
                             </CardHeader>
                         </Card>
                     </div>
-                    <div className='space-y-4'>
+                    <div className='space-y-4 sticky top-20 self-start'>
                         <HeadingSmall title='Order summary'/>
                         <Card className='p-4 gap-4'>
                             <CardContent className='p-0 flex flex-col gap-4'>
                                 <div className='flex justify-between font-bold text-sm'>
                                     <h3 className=''>Sub-total (3 items)</h3>
-                                    <p>Php 12,855.00</p>
+                                    <p>Php {totalPrice.toLocaleString()}</p>
                                 </div>
                                 <Separator/>
                                 <div>
                                     <h3 className='font-bold text-sm'>Total Saving</h3>
                                     <div className='flex justify-between text-sm text-zinc-400'>
                                         <h3 className=''>No Voucher Applied</h3>
-                                        <p>Php 12,855.00</p>
+                                        <p>Php 0.00</p>
                                     </div>
                                 </div>
                                 <div>
                                     <h3 className='font-bold text-sm'>Shipping</h3>
                                     <div className='flex justify-between text-sm text-zinc-400'>
                                         <h3 className=''>From ALING BEBANG</h3>
-                                        <p>Php 12,855.00</p>
+                                        <p>Php 0.00</p>
                                     </div>
                                 </div>
 
@@ -167,7 +178,7 @@ export default function OrderBag() {
                                 <Separator/>
                                 <div className='flex justify-between font-bold text-sm'>
                                     <h3 className=''>Total <span className='text-zinc-400'>(Including TAX)</span></h3>
-                                    <p>Php 12,855.00</p>
+                                    <p>Php {(totalPrice).toLocaleString()}</p>
                                 </div>
 
                                 <Button 

@@ -14,7 +14,7 @@ interface AppLayoutProps {
 export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
     const { props } = usePage<{
         auth: { user: { role: string } },
-        flash: { success?: string, error?: string }
+        flash: { success?: string, error?: string, info?: string }
     }>();
     
     const role = props.auth?.user?.role;
@@ -25,6 +25,9 @@ export default function AppLayout({ children, breadcrumbs }: AppLayoutProps) {
     }
     if (props.flash?.error) {
         toast.error(props.flash.error, { id: 'error-toast' });
+    }
+    if (props.flash?.info) {
+        toast.info(props.flash.info, { id: 'info-toast' });
     }
     }, [props.flash?.success, props.flash?.error]);
 

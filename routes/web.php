@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishController;
 use App\Http\Controllers\OrderController;
@@ -34,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('order', OrderController::class);
     Route::resource('wishlist', WishController::class);
+    Route::resource('cart', CartController::class);
 });
 
 require __DIR__.'/settings.php';

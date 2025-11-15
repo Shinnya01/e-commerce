@@ -80,7 +80,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Cart',
-        href: '/order',
+        href: '/cart',
         icon: ShoppingCart,
     },
     {

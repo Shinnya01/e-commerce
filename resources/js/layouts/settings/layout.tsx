@@ -93,7 +93,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
             </div> */}
 
             <div className='grid grid-cols-3 gap-4'>
-                <aside className='bg-zinc-800/30 h-fit rounded-lg overflow-hidden'>
+                <aside className='bg-zinc-800/30 h-fit rounded-lg overflow-hidden sticky top-20'>
                     <h1 className='p-3 font-semibold'>My Account</h1>
                     <nav className="flex flex-col space-x-0">
                         {sidebarNavItems.map((item, index) => (

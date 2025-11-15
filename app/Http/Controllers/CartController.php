@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers;
 
-use App\Models\Wish;
+use App\Models\Cart;
 use Inertia\Inertia;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
-class WishController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $wishes = Wish::with(['product'])
+        $carts = Cart::with(['product'])
                 ->where('user_id', auth()->id())
                 ->get();
 
-        return Inertia::render('settings/wishlist', compact('wishes'));
+        $totalPrice = $carts->sum(function ($cart) {
+            return $cart->product->price;
+        });
+        return Inertia::render('order/order-cart', compact('carts', 'totalPrice'));
     }
 
     /**
@@ -40,19 +41,27 @@ class WishController extends Controller
             'product_id' => 'required|exists:products,id',
         ]);
 
+        $cart = Cart::where('user_id', auth()->id())
+                ->where('product_id', $request->product_id)
+                ->first();
 
-        Wish::firstOrCreate([
+        if($cart) {
+            
+            return back()->with('info', 'already in cart!');
+        }
+
+        Cart::firstOrCreate([
             'user_id' => auth()->id(),
             'product_id' => $request->product_id,
         ]);
 
-        return back()->with('success', 'Added to wishlist!');
+        return back()->with('success', 'Added to cart!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Wish $wish)
+    public function show(Cart $cart)
     {
         //
     }
@@ -60,7 +69,7 @@ class WishController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Wish $wish)
+    public function edit(Cart $cart)
     {
         //
     }
@@ -68,7 +77,7 @@ class WishController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Wish $wish)
+    public function update(Request $request, Cart $cart)
     {
         //
     }
@@ -76,7 +85,7 @@ class WishController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Wish $wish)
+    public function destroy(Cart $cart)
     {
         //
     }

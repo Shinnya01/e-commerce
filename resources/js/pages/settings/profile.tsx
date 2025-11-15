@@ -89,8 +89,8 @@ export default function Profile({
                                         message={errors.email}
                                     />
                                 </div>
-                                <Separator/>
-                                <div className="grid gap-2">
+                                {/* <Separator/> */}
+                                {/* <div className="grid gap-2">
                                     <Label htmlFor="bday">Birthday</Label>
 
                                     <Input
@@ -98,9 +98,9 @@ export default function Profile({
                                         type="email"
                                         className="mt-1 block w-full"
                                         defaultValue={auth.user.email}
-                                        name="email"
+                                        name="birthday"
                                         required
-                                        autoComplete="username"
+                                        autoComplete="bit"
                                         placeholder="Email address"
                                     />
 
@@ -108,7 +108,7 @@ export default function Profile({
                                         className="mt-2"
                                         message={errors.email}
                                     />
-                                </div>
+                                </div> */}
 
                                 {mustVerifyEmail &&
                                     auth.user.email_verified_at === null && (

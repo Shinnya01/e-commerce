@@ -22,26 +22,44 @@ interface Product {
   image: string
   category?: { name: string }
   sub_category?: { name: string }
+  
 }
 
 export default function Products({ products }:{ products: Product[] }) {
-    const { data, setData, post, processing, errors } = useForm({
-        product_id: 0
-    })
+    // const { data, setData, post, processing, errors } = useForm({
+    //     product_id: 0
+    // })
 
 
     const showProduct = (id: number) => {
         router.visit(`/products/${id}`)
     }
+    
+    
 
     const addToCart = (e: any, product_id: number) => {
         e.preventDefault();
-
-        setData('product_id', product_id);
-        post('/order' , {
+    
+        router.post('/cart' , { product_id } , {
             preserveScroll: true,
-            onSuccess: () => {
-                toast.success('Added to cart successfully!')
+            onSuccess: (page) => {
+                const { flash } = page.props as any;
+                if (flash?.info) toast.warning(flash.info);
+                if (flash?.success) toast.success(flash.success);
+            },
+        })
+    }
+
+    const addToWishlist = (e:any, product_id: number) => {
+        e.preventDefault();
+
+    
+        router.post('/wishlist' , { product_id }, {
+            preserveScroll: true,
+            onSuccess: (page) => {
+            const { flash } = page.props as any;
+                if (flash?.info) toast.warning(flash.info);
+                if (flash?.success) toast.success(flash.success);
             },
         })
     }
@@ -216,6 +234,7 @@ export default function Products({ products }:{ products: Product[] }) {
                                     <Button 
                                         className="text-white text-sm px-3 py-1 rounded-md hover:bg-blue-700 " 
                                         variant="outline"
+                                        onClick={(e) => addToWishlist(e, product.id)}
                                         >
                                         <Heart className="size-5"/>
                                     </Button>

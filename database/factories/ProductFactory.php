@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence(),
             'price' => $this->faker->randomFloat(2, 50, 1000),
             'stock' => $this->faker->numberBetween(1, 100),
-            'image' => $this->faker->imageUrl(640, 480, 'products', true),
+            'image' => null,
 
             // Assign random category and subcategory
             'category_id' => Category::inRandomOrder()->value('id'),
